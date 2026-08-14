@@ -1,0 +1,17 @@
+{
+    "name": "musl",
+    "description": "Lightweight, fast, and standards-conformant C standard library implementation, designed as a musl-libc alternative to glibc for static and dynamic linking.",
+    "version": "1.2.5",
+    "dependencies": [],
+    "download": [
+        "curl -fL --retry 3 --retry-delay 2 -o musl-1.2.5.tar.gz https://musl.libc.org/releases/musl-1.2.5.tar.gz",
+        "tar -xf musl-1.2.5.tar.gz"
+    ],
+    "build": [
+        "cd musl-1.2.5 && ./configure --prefix=\"$PREFIX\" --syslibdir=\"$PREFIX/lib\"",
+        "cd musl-1.2.5 && make $MAKEOPTS"
+    ],
+    "install": [
+        "cd musl-1.2.5 && make DESTDIR=\"$DESTDIR\" install"
+    ]
+}

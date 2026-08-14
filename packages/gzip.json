@@ -1,0 +1,17 @@
+{
+    "name": "gzip",
+    "description": "Standard file compression utility implementing the DEFLATE algorithm, providing gzip/gunzip/zcat for the .gz format.",
+    "version": "1.13",
+    "dependencies": [],
+    "download": [
+        "curl -fL --retry 3 --retry-delay 2 -o gzip-1.13.tar.gz https://ftp.gnu.org/gnu/gzip/gzip-1.13.tar.gz",
+        "tar -xf gzip-1.13.tar.gz"
+    ],
+    "build": [
+        "cd gzip-1.13 && ./configure --prefix=\"$PREFIX\"",
+        "cd gzip-1.13 && make $MAKEOPTS"
+    ],
+    "install": [
+        "cd gzip-1.13 && make DESTDIR=\"$DESTDIR\" install"
+    ]
+}

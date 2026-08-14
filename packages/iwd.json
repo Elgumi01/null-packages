@@ -1,0 +1,22 @@
+{
+    "name": "iwd",
+    "description": "Wireless daemon for Linux providing WiFi management via D-Bus, built on the ell (Embedded Linux Library) with minimal external dependencies.",
+    "version": "2.17",
+    "dependencies": [
+        "autoconf",
+        "automake",
+        "libtool",
+        "pkgconf",
+        "readline"
+    ],
+    "download": [
+        "git clone --depth 1 --branch 2.17 https://git.kernel.org/pub/scm/network/wireless/iwd.git"
+    ],
+    "build": [
+        "cd iwd && ./bootstrap-configure --prefix=\"$PREFIX\"",
+        "cd iwd && make $MAKEOPTS"
+    ],
+    "install": [
+        "cd iwd && make DESTDIR=\"$DESTDIR\" install"
+    ]
+}

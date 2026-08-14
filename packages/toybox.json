@@ -1,0 +1,17 @@
+{
+    "name": "toybox",
+    "description": "Single binary providing many common Unix command-line utilities, used as a lightweight non-GNU alternative to coreutils and other GNU userland tools.",
+    "version": "0.8.12",
+    "dependencies": [],
+    "download": [
+        "curl -fL --retry 3 --retry-delay 2 -o toybox-0.8.12.tar.gz http://landley.net/toybox/downloads/toybox-0.8.12.tar.gz",
+        "tar -xf toybox-0.8.12.tar.gz"
+    ],
+    "build": [
+        "cd toybox-0.8.12 && make defconfig",
+        "cd toybox-0.8.12 && make $MAKEOPTS"
+    ],
+    "install": [
+        "cd toybox-0.8.12 && make PREFIX=\"$DESTDIR$PREFIX\" install"
+    ]
+}

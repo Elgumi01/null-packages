@@ -1,0 +1,18 @@
+{
+    "name": "tzdata",
+    "description": "Time zone and daylight-saving time rules database (IANA tz database), providing compiled zoneinfo files used by the C library and time-related programs.",
+    "version": "2025b",
+    "dependencies": [],
+    "download": [
+        "curl -fL --retry 3 --retry-delay 2 -o tzdata2025b.tar.gz https://data.iana.org/time-zones/releases/tzdata2025b.tar.gz",
+        "mkdir -p tzdata-2025b && tar -xf tzdata2025b.tar.gz -C tzdata-2025b"
+    ],
+    "build": [
+        "cd tzdata-2025b && mkdir -p zoneinfo",
+        "cd tzdata-2025b && zic -d zoneinfo -L /dev/null africa antarctica asia australasia europe northamerica southamerica etcetera backward"
+    ],
+    "install": [
+        "install -d \"$DESTDIR$PREFIX/share/zoneinfo\"",
+        "cp -r tzdata-2025b/zoneinfo/. \"$DESTDIR$PREFIX/share/zoneinfo/\""
+    ]
+}
