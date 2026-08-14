@@ -12,6 +12,8 @@
         "cd toybox-0.8.12 && make $MAKEOPTS"
     ],
     "install": [
-        "cd toybox-0.8.12 && make PREFIX=\"$DESTDIR$PREFIX\" install"
+        "mkdir -p \"$DESTDIR$PREFIX/bin\"",
+        "cp toybox-0.8.12/toybox \"$DESTDIR$PREFIX/bin/toybox\"",
+        "chmod 755 \"$DESTDIR$PREFIX/bin/toybox\""
     ]
 }
