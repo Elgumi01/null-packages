@@ -1,0 +1,17 @@
+{
+    "name": "file",
+    "description": "File type identification utility (magic number based) providing the 'file' command and libmagic.",
+    "version": "5.46",
+    "dependencies": [],
+    "download": [
+        "curl -fL --retry 3 --retry-delay 2 -o file-5.46.tar.gz https://astron.com/pub/file/file-5.46.tar.gz",
+        "tar -xf file-5.46.tar.gz"
+    ],
+    "build": [
+        "cd file-5.46 && ./configure --prefix=\"$PREFIX\"",
+        "cd file-5.46 && make $MAKEOPTS"
+    ],
+    "install": [
+        "cd file-5.46 && make DESTDIR=\"$DESTDIR\" install"
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "name": "diffutils",
+    "description": "GNU utilities for comparing and finding differences between files, including diff, cmp, diff3, and sdiff.",
+    "version": "3.12",
+    "dependencies": [],
+    "download": [
+        "curl -fL --retry 3 --retry-delay 2 -o diffutils-3.12.tar.xz https://ftpmirror.gnu.org/diffutils/diffutils-3.12.tar.xz",
+        "tar -xf diffutils-3.12.tar.xz"
+    ],
+    "build": [
+        "cd diffutils-3.12 && ./configure --prefix=\"$PREFIX\"",
+        "cd diffutils-3.12 && make $MAKEOPTS"
+    ],
+    "install": [
+        "cd diffutils-3.12 && make DESTDIR=\"$DESTDIR\" install"
+    ]
+}
