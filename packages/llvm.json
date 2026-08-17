@@ -5,7 +5,8 @@
   "dependencies": [
     "cmake",
     "ninja",
-    "libffi"
+    "libffi",
+    "zlib"
   ],
   "download": [
     "curl -fL --retry 3 --retry-delay 2 -o llvm-21.1.8.src.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/llvm-21.1.8.src.tar.xz",
@@ -23,8 +24,9 @@
     "mv llvm-project/third-party-21.1.8.src llvm-project/third-party"
   ],
   "build": [
+    "for d in /usr/lib64 /usr/x86_64-pc-linux-musl/lib64 /usr/lib; do if [ -f \"$d/libstdc++.a\" ]; then if ! nm \"$d/libstdc++.a\" 2>/dev/null | grep -q once_call; then echo \"ERRO: $d/libstdc++.a sem simbolos __once_call/__once_callable - toolchain gcc quebrado (bug de TLS na musl). Rebuilda o pacote gcc antes de continuar.\" >&2; exit 1; fi; fi; done",
     "mkdir -p llvm-project/llvm/build",
-    "cd llvm-project/llvm/build && cmake -G Ninja -S .. -B . -D CMAKE_INSTALL_PREFIX=\"$PREFIX\" -D CMAKE_SKIP_INSTALL_RPATH=ON -D LLVM_ENABLE_FFI=ON -D CMAKE_BUILD_TYPE=Release -D LLVM_BUILD_LLVM_DYLIB=ON -D LLVM_LINK_LLVM_DYLIB=ON -D LLVM_ENABLE_RTTI=ON -D LLVM_ENABLE_PROJECTS=clang -D LLVM_TARGETS_TO_BUILD=\"host;AMDGPU\" -D LLVM_BINUTILS_INCDIR=\"$PREFIX/include\" -D LLVM_INCLUDE_BENCHMARKS=OFF -D CLANG_DEFAULT_PIE_ON_LINUX=ON -D CLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -D LLVM_TOOL_GOLD_BUILD=OFF -W no-dev",
+    "cd llvm-project/llvm/build && CC=x86_64-pc-linux-musl-gcc CXX=x86_64-pc-linux-musl-g++ cmake -G Ninja -S .. -B . -D CMAKE_C_COMPILER=x86_64-pc-linux-musl-gcc -D CMAKE_CXX_COMPILER=x86_64-pc-linux-musl-g++ -D CMAKE_INSTALL_PREFIX=\"$PREFIX\" -D CMAKE_SKIP_INSTALL_RPATH=OFF -D CMAKE_INSTALL_RPATH=\"$PREFIX/lib\" -D CMAKE_BUILD_WITH_INSTALL_RPATH=ON -D LLVM_ENABLE_FFI=ON -D CMAKE_BUILD_TYPE=Release -D LLVM_BUILD_LLVM_DYLIB=ON -D LLVM_LINK_LLVM_DYLIB=ON -D CLANG_LINK_CLANG_DYLIB=ON -D LLVM_ENABLE_RTTI=ON -D LLVM_ENABLE_EH=ON -D LLVM_ENABLE_PROJECTS=clang -D LLVM_TARGETS_TO_BUILD=\"host;AMDGPU\" -D LLVM_DEFAULT_TARGET_TRIPLE=x86_64-pc-linux-musl -D LLVM_BINUTILS_INCDIR=\"$PREFIX/include\" -D LLVM_INCLUDE_TESTS=OFF -D LLVM_INCLUDE_EXAMPLES=OFF -D LLVM_INCLUDE_BENCHMARKS=OFF -D LLVM_ENABLE_ZLIB=FORCE_ON -D LLVM_ENABLE_ZSTD=OFF -D LLVM_ENABLE_LIBXML2=OFF -D LLVM_ENABLE_TERMINFO=OFF -D LLVM_ENABLE_LIBCXX=OFF -D LLVM_PARALLEL_LINK_JOBS=2 -D CLANG_DEFAULT_PIE_ON_LINUX=ON -D CLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -D LLVM_TOOL_GOLD_BUILD=OFF -W no-dev",
     "ninja -C llvm-project/llvm/build $MAKEOPTS"
   ],
   "install": [

@@ -2,13 +2,13 @@
     "name": "musl-fts",
     "description": "Implementation of fts(3) functions for musl libc",
     "version": "1.2.7",
-    "dependencies": [],
+    "dependencies": ["automake", "libtool"],
     "download": [
         "curl -fL --retry 3 --retry-delay 2 -o musl-fts-1.2.7.tar.gz https://github.com/pullmoll/musl-fts/archive/v1.2.7.tar.gz",
         "tar -xf musl-fts-1.2.7.tar.gz"
     ],
     "build": [
-        "cd musl-fts-1.2.7 && ./autogen.sh",
+        "cd musl-fts-1.2.7 && ./bootstrap.sh",
         "cd musl-fts-1.2.7 && ./configure --prefix=\"$PREFIX\"",
         "cd musl-fts-1.2.7 && make $MAKEOPTS"
     ],

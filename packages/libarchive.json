@@ -8,7 +8,7 @@
     "tar -xf libarchive-3.8.5.tar.xz"
   ],
   "build": [
-    "cd libarchive-3.8.5 && ./configure --prefix=\"$PREFIX\" --disable-static",
+    "cd libarchive-3.8.5 && ./configure --prefix=\"$PREFIX\" --disable-static ac_cv_header_readpassphrase_h=no",
     "cd libarchive-3.8.5 && make $MAKEOPTS"
   ],
   "install": [
