@@ -1,22 +1,24 @@
 {
     "name": "gcc",
-    "description": "GNU Compiler Collection, rebuilt with explicit POSIX thread support for musl (fixes missing std::call_once / std::__once_call symbols in libstdc++).",
-    "version": "15.3.0",
+    "description": "GNU Compiler Collection, providing the GCC (C) and G++ (C++) compilers along with supporting runtime libraries such as libgcc, libstdc++, and libatomic.",
+    "version": "15.2.0",
     "dependencies": [
-        "curl"
+        "binutils",
+        "zlib",
+        "gmp",
+        "mpfr",
+        "mpc"
     ],
     "download": [
-        "curl -fL --retry 3 --retry-delay 2 -o gcc-15.3.0.tar.xz https://ftp.gnu.org/gnu/gcc/gcc-15.3.0/gcc-15.3.0.tar.xz",
-        "tar -xf gcc-15.3.0.tar.xz",
-        "cd gcc-15.3.0 && ./contrib/download_prerequisites"
+        "curl -fL --retry 3 --retry-delay 2 -o gcc-15.2.0.tar.xz https://ftpmirror.gnu.org/gcc/gcc-15.2.0/gcc-15.2.0.tar.xz",
+        "tar -xf gcc-15.2.0.tar.xz"
     ],
     "build": [
-        "mkdir -p gcc-build",
-        "cd gcc-build && export gcc_cv_have_tls=yes glibcxx_cv_have_tls=yes MAKEINFO=missing && ../gcc-15.3.0/configure --prefix=\"$PREFIX\" --build=x86_64-pc-linux-musl --host=x86_64-pc-linux-musl --target=x86_64-pc-linux-musl --enable-languages=c,c++ --enable-threads=posix --enable-tls --disable-multilib --disable-bootstrap --disable-nls --disable-werror --disable-libsanitizer --disable-libmpx --disable-libcilkrts --disable-libitm --with-system-zlib=no",
-        "cd gcc-build && make $MAKEOPTS"
+        "cd gcc-15.2.0 && mkdir -v build",
+        "cd gcc-15.2.0/build && ../configure --prefix=\"$PREFIX\" --with-gmp=\"$PREFIX\" --with-mpfr=\"$PREFIX\" --with-mpc=\"$PREFIX\" LD=ld --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-host-pie --disable-multilib --disable-bootstrap --disable-fixincludes --with-system-zlib",
+        "cd gcc-15.2.0/build && make $MAKEOPTS"
     ],
     "install": [
-        "cd gcc-build && make DESTDIR=\"$DESTDIR\" install-strip",
-        "for f in libstdc++.a libstdc++.so libstdc++.so.6 libstdc++.so.6.0.34 libgcc_s.so libgcc_s.so.1; do src=\"\"; for d in \"$DESTDIR/usr/lib64\" \"$DESTDIR/usr/x86_64-pc-linux-musl/lib64\" \"$DESTDIR/usr/lib\"; do if [ -f \"$d/$f\" ] && [ ! -L \"$d/$f\" ]; then src=\"$d/$f\"; fi; done; if [ -n \"$src\" ]; then for d in \"$DESTDIR/usr/lib64\" \"$DESTDIR/usr/x86_64-pc-linux-musl/lib64\" \"$DESTDIR/usr/lib\"; do if [ -e \"$d/$f\" ] || [ -d \"$d\" ]; then cp -f \"$src\" \"$d/$f\"; fi; done; fi; done"
+        "cd gcc-15.2.0/build && make DESTDIR=\"$DESTDIR\" install"
     ]
 }

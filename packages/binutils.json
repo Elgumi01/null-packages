@@ -11,7 +11,7 @@
     ],
     "build": [
         "mkdir -v binutils-2.45-build",
-        "cd binutils-2.45-build && ../binutils-2.45/configure --with-system-zlib --prefix=\"$PREFIX\" --sysconfdir=/etc --enable-ld=default --enable-plugins --enable-shared --disable-werror --enable-64-bit-bfd --enable-new-dtags --enable-default-hash-style=gnu",
+        "cd binutils-2.45-build && ../binutils-2.45/configure --with-system-zlib --prefix=\"$PREFIX\" --sysconfdir=/etc --enable-ld=default --enable-plugins --disable-shared --disable-werror --enable-64-bit-bfd --enable-new-dtags --enable-default-hash-style=gnu",
         "cd binutils-2.45-build && make $MAKEOPTS"
     ],
     "install": [
