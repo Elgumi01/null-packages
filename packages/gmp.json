@@ -8,8 +8,8 @@
         "tar -xf gmp-6.3.0.tar.xz"
     ],
     "build": [
-        "cd gmp-6.3.0 && ./configure --prefix=\"$PREFIX\" --enable-cxx",
-        "cd gmp-6.3.0 && make $MAKEOPTS"
+        "cd gmp-6.3.0 && CFLAGS=\"$CFLAGS -std=gnu17\" ./configure --prefix=\"$PREFIX\" --enable-cxx",
+        "cd gmp-6.3.0 && CFLAGS=\"$CFLAGS -std=gnu17\" make $MAKEOPTS"
     ],
     "install": [
         "cd gmp-6.3.0 && make DESTDIR=\"$DESTDIR\" install"
